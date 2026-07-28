@@ -1,20 +1,33 @@
 import csv
 import json
 import os
-import random
 import requests
 
 TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
 
+# Read questions
 with open("questions.csv") as f:
     reader = csv.DictReader(f)
     questions = [row["Question"] for row in reader]
 
-question = random.choice(questions)
+# Read state
+with open("state.json") as f:
+    state = json.load(f)
+
+index = state["next_question"]
+
+question = questions[index]
+
+# Update for tomorrow
+state["next_question"] = (index + 1) % len(questions)
+
+with open("state.json", "w") as f:
+    json.dump(state, f)
 
 url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 
 requests.post(url, json={
     "chat_id": CHAT_ID,
-    "text": "❤️ Today's question:\n\n" + question
+    "text": f"❤️ Today's question:\n\n{question}"
+})
