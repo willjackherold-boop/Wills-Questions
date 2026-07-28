@@ -9,7 +9,7 @@ CHAT_ID = os.environ["CHAT_ID"]
 # Read questions
 with open("questions.csv") as f:
     reader = csv.DictReader(f)
-    questions = [row["Question"] for row in reader]
+    questions = [row[list(row.keys())[0]] for row in reader]
 
 # Read state
 with open("state.json") as f:
