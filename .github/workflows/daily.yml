@@ -1,7 +1,6 @@
 name: Daily Question
 
 on:
-  workflow_dispatch:
   schedule:
     - cron: '0 8 * * *'
 
