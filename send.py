@@ -29,5 +29,5 @@ url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 
 requests.post(url, json={
     "chat_id": CHAT_ID,
-    "text": f"❤️ Today's question:\n\n{question}"
+    "text": f"❤️ A little question for us today:\n\n{question}"
 })
