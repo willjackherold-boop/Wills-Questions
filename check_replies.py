@@ -23,7 +23,7 @@ credentials = Credentials.from_service_account_info(
 
 client = gspread.authorize(credentials)
 
-SPREADSHEET_ID = "1i4nj_eFeuhzbfI7FAwjz-1hsK4STxhbA1T0xNDFgL-I/"
+SPREADSHEET_ID = "1i4nj_eFeuhzbfI7FAwjz-1hsK4STxhbA1T0xNDFgL-I"
 
 sheet = client.open_by_key(SPREADSHEET_ID).sheet1
 
