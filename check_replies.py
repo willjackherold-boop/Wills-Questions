@@ -3,6 +3,8 @@ import os
 import requests
 from datetime import datetime
 
+PARTNER_CHAT_ID = 7915079835
+
 TOKEN = os.environ["BOT_TOKEN"]
 
 # Read state
