@@ -64,7 +64,7 @@ if data["ok"]:
         with open("journal.json") as f:
             journal = json.load(f)
 
-         for update in updates:
+        for update in updates:
             message = update.get("message", {})
 
             sender = message.get("from", {}).get("first_name", "Unknown")
