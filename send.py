@@ -2,7 +2,7 @@ import csv
 import json
 import os
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 
 TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
