@@ -11,6 +11,8 @@ PARTNER_CHAT_ID = 8698319651
 
 TOKEN = os.environ["BOT_TOKEN"]
 
+DRIVE_FOLDER_ID = "1tI4epNzaneuAdRjlPr7gsBKIoYvn4rwm"
+
 GOOGLE_CREDENTIALS = json.loads(os.environ["GOOGLE_CREDENTIALS"])
 
 SCOPES = [
