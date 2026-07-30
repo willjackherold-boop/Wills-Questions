@@ -5,6 +5,7 @@ import gspread
 from datetime import datetime
 from pathlib import Path
 from google.oauth2.service_account import Credentials
+from google.oauth2.credentials import Credentials as UserCredentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
@@ -30,10 +31,17 @@ credentials = Credentials.from_service_account_info(
 
 client = gspread.authorize(credentials)
 
+DRIVE_TOKEN = json.loads(os.environ["GOOGLE_DRIVE_TOKEN"])
+
+drive_credentials = UserCredentials.from_authorized_user_info(
+    DRIVE_TOKEN,
+    ["https://www.googleapis.com/auth/drive"]
+)
+
 drive_service = build(
     "drive",
     "v3",
-    credentials=credentials
+    credentials=drive_credentials
 )
 
 SPREADSHEET_ID = "1i4nj_eFeuhzbfI7FAwjz-1hsK4STxhbA1T0xNDFgL-I"
