@@ -49,7 +49,7 @@ if data["ok"]:
 
             if message.get("chat", {}).get("id") != PARTNER_CHAT_ID:
                 print("Ignoring message from another user")
-            continue
+                continue
 
             sender = message.get("from", {}).get("first_name", "Unknown")
 
