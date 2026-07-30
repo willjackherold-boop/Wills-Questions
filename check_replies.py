@@ -64,52 +64,52 @@ if data["ok"]:
         with open("journal.json") as f:
             journal = json.load(f)
 
-        for update in updates:
-    message = update.get("message", {})
+         for update in updates:
+            message = update.get("message", {})
 
-    sender = message.get("from", {}).get("first_name", "Unknown")
+            sender = message.get("from", {}).get("first_name", "Unknown")
 
-    entry = {
-        "date": datetime.fromtimestamp(message.get("date")).strftime("%Y-%m-%d"),
-        "sender": sender,
-        "question": state["last_question"],
-    }
+            entry = {
+                "date": datetime.fromtimestamp(message.get("date")).strftime("%Y-%m-%d"),
+                "sender": sender,
+                "question": state["last_question"],
+            }
 
-    if "text" in message:
-        entry["type"] = "text"
-        entry["response"] = message["text"]
+            if "text" in message:
+                entry["type"] = "text"
+                entry["response"] = message["text"]
 
-    elif "video" in message:
-        entry["type"] = "video"
-        entry["response"] = message["video"]["file_id"]
+            elif "video" in message:
+                entry["type"] = "video"
+                entry["response"] = message["video"]["file_id"]
 
-    elif "video_note" in message:
-        entry["type"] = "video_note"
-        entry["response"] = message["video_note"]["file_id"]
+            elif "video_note" in message:
+                entry["type"] = "video_note"
+                entry["response"] = message["video_note"]["file_id"]
 
-    elif "voice" in message:
-        entry["type"] = "voice"
-        entry["response"] = message["voice"]["file_id"]
+            elif "voice" in message:
+                entry["type"] = "voice"
+                entry["response"] = message["voice"]["file_id"]
 
-    elif "photo" in message:
-        entry["type"] = "photo"
-        entry["response"] = message["photo"][-1]["file_id"]
+            elif "photo" in message:
+                entry["type"] = "photo"
+                entry["response"] = message["photo"][-1]["file_id"]
 
-    else:
-        entry["type"] = "other"
-        entry["response"] = "Unsupported message type"
+            else:
+                entry["type"] = "other"
+                entry["response"] = "Unsupported message type"
 
-    journal.append(entry)
+            journal.append(entry)
 
-    sheet.append_row([
-        entry["date"],
-        entry["sender"],
-        entry["question"],
-        entry["type"],
-        entry["response"]
-    ])
+            sheet.append_row([
+                entry["date"],
+                entry["sender"],
+                entry["question"],
+                entry["type"],
+                entry["response"]
+            ])
 
-    print("Saved:", entry["type"], "from", sender)
+            print("Saved:", entry["type"], "from", sender)
 
 # Save journal
 with open("journal.json", "w") as f:
