@@ -61,6 +61,10 @@ if data["ok"]:
                 entry["type"] = "video"
                 entry["response"] = message["video"]["file_id"]
 
+            elif "video_note" in message:
+                entry["type"] = "video_note"
+                entry["response"] = message["video_note"]["file_id"]
+
             elif "voice" in message:
                 entry["type"] = "voice"
                 entry["response"] = message["voice"]["file_id"]
