@@ -4,6 +4,8 @@ import requests
 import gspread
 from datetime import datetime
 from google.oauth2.service_account import Credentials
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaFileUpload
 
 PARTNER_CHAT_ID = 8698319651
 
