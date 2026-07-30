@@ -111,10 +111,10 @@ if data["ok"]:
 
             print("Saved:", entry["type"], "from", sender)
 
-# Save journal
-with open("journal.json", "w") as f:
-    json.dump(journal, f, indent=2)
-    
+        # Save journal
+        with open("journal.json", "w") as f:
+            json.dump(journal, f, indent=2)
+
 else:
     print("Telegram returned an error:")
     print(data)
