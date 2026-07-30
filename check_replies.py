@@ -9,7 +9,7 @@ from google.oauth2.credentials import Credentials as UserCredentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
-PARTNER_CHAT_ID = 8698319651
+PARTNER_CHAT_ID = 7915079835
 
 TOKEN = os.environ["BOT_TOKEN"]
 
