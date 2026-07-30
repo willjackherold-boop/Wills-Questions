@@ -37,6 +37,35 @@ SPREADSHEET_ID = "1i4nj_eFeuhzbfI7FAwjz-1hsK4STxhbA1T0xNDFgL-I"
 
 sheet = client.open_by_key(SPREADSHEET_ID).sheet1
 
+def upload_to_drive(filename):
+    file_metadata = {
+        "name": filename,
+        "parents": [DRIVE_FOLDER_ID]
+    }
+
+    media = MediaFileUpload(
+        filename,
+        resumable=True
+    )
+
+    uploaded = drive_service.files().create(
+        body=file_metadata,
+        media_body=media,
+        fields="id"
+    ).execute()
+
+    file_id = uploaded.get("id")
+
+    drive_service.permissions().create(
+        fileId=file_id,
+        body={
+            "type": "anyone",
+            "role": "reader"
+        }
+    ).execute()
+
+    return f"https://drive.google.com/file/d/{file_id}/view"
+
 # Read state
 with open("state.json") as f:
     state = json.load(f)
