@@ -22,6 +22,10 @@ credentials = Credentials.from_service_account_info(
 
 client = gspread.authorize(credentials)
 
+SHEET_NAME = "Relationship Journal"
+
+sheet = client.open(SHEET_NAME).sheet1
+
 # Read state
 with open("state.json") as f:
     state = json.load(f)
