@@ -25,6 +25,12 @@ credentials = Credentials.from_service_account_info(
 
 client = gspread.authorize(credentials)
 
+drive_service = build(
+    "drive",
+    "v3",
+    credentials=credentials
+)
+
 SPREADSHEET_ID = "1i4nj_eFeuhzbfI7FAwjz-1hsK4STxhbA1T0xNDFgL-I"
 
 sheet = client.open_by_key(SPREADSHEET_ID).sheet1
