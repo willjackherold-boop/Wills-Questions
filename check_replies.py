@@ -47,7 +47,7 @@ if data["ok"]:
             sender = message.get("from", {}).get("first_name", "Unknown")
 
             entry = {
-                "date": message.get("date"),
+                "date": datetime.fromtimestamp(message.get("date")).strftime("%Y-%m-%d"),
                 "sender": sender,
                 "question": state["last_question"],
             }
