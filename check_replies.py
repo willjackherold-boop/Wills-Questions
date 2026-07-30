@@ -5,7 +5,7 @@ import gspread
 from datetime import datetime
 from google.oauth2.service_account import Credentials
 
-PARTNER_CHAT_ID = 7915079835
+PARTNER_CHAT_ID = 8698319651
 
 TOKEN = os.environ["BOT_TOKEN"]
 
@@ -67,9 +67,9 @@ if data["ok"]:
         for update in updates:
             message = update.get("message", {})
 
-            # if message.get("chat", {}).get("id") != PARTNER_CHAT_ID:
-            #     print("Ignoring message from another user")
-            #     continue
+            if message.get("chat", {}).get("id") != PARTNER_CHAT_ID:
+                print("Ignoring message from another user")
+                continue
 
             sender = message.get("from", {}).get("first_name", "Unknown")
 
