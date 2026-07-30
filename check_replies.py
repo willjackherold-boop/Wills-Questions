@@ -37,27 +37,48 @@ if data["ok"]:
         with open("state.json", "w") as f:
             json.dump(state, f, indent=2)
 
+        # Load journal
+        with open("journal.json") as f:
+            journal = json.load(f)
+
         for update in updates:
             message = update.get("message", {})
 
             sender = message.get("from", {}).get("first_name", "Unknown")
 
-            print("Sender:", sender)
+            entry = {
+                "date": message.get("date"),
+                "sender": sender,
+                "question": state["last_question"],
+            }
 
             if "text" in message:
-                print("Text:", message["text"])
+                entry["type"] = "text"
+                entry["response"] = message["text"]
 
             elif "video" in message:
-                print("Received a video")
+                entry["type"] = "video"
+                entry["response"] = message["video"]["file_id"]
 
             elif "voice" in message:
-                print("Received a voice message")
+                entry["type"] = "voice"
+                entry["response"] = message["voice"]["file_id"]
 
             elif "photo" in message:
-                print("Received a photo")
+                entry["type"] = "photo"
+                entry["response"] = message["photo"][-1]["file_id"]
 
             else:
-                print("Received another type of message")
+                entry["type"] = "other"
+                entry["response"] = "Unsupported message type"
+
+            journal.append(entry)
+
+            print("Saved:", entry["type"], "from", sender)
+
+        # Save journal
+        with open("journal.json", "w") as f:
+            json.dump(journal, f, indent=2)
 
 else:
     print("Telegram returned an error:")
