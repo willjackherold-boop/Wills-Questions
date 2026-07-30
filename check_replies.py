@@ -3,6 +3,7 @@ import os
 import requests
 import gspread
 from datetime import datetime
+from pathlib import Path
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
@@ -39,10 +40,38 @@ SPREADSHEET_ID = "1i4nj_eFeuhzbfI7FAwjz-1hsK4STxhbA1T0xNDFgL-I"
 
 sheet = client.open_by_key(SPREADSHEET_ID).sheet1
 
-def upload_to_drive(filename):
+def download_telegram_file(file_id, filename):
+    file_info_url = f"https://api.telegram.org/bot{TOKEN}/getFile"
+
+    response = requests.get(
+        file_info_url,
+        params={"file_id": file_id}
+    )
+
+    response.raise_for_status()
+
+    file_path = response.json()["result"]["file_path"]
+
+    download_url = (
+        f"https://api.telegram.org/file/"
+        f"bot{TOKEN}/{file_path}"
+    )
+
+    file_response = requests.get(download_url)
+    file_response.raise_for_status()
+
+    file_data = file_response.content
+
+    with open(filename, "wb") as f:
+        f.write(file_data)
+
+    return filename
+
+def upload_to_drive(filename, folder_id):
+
     file_metadata = {
         "name": filename,
-        "parents": [DRIVE_FOLDER_ID]
+        "parents": [folder_id]
     }
 
     media = MediaFileUpload(
@@ -58,6 +87,7 @@ def upload_to_drive(filename):
 
     file_id = uploaded.get("id")
 
+    # Make file viewable by link
     drive_service.permissions().create(
         fileId=file_id,
         body={
@@ -66,8 +96,8 @@ def upload_to_drive(filename):
         }
     ).execute()
 
-    return f"https://drive.google.com/file/d/{file_id}/view"
-
+    return f"https://drive.google.com/file/d/{file_id}/view?usp=sharing"
+    
 # Read state
 with open("state.json") as f:
     state = json.load(f)
@@ -82,7 +112,7 @@ response = requests.get(
         "offset": last_update_id + 1
     }
 )
-
+ 
 data = response.json()
 
 print("Telegram response received")
@@ -122,15 +152,60 @@ if data["ok"]:
 
             elif "video" in message:
                 entry["type"] = "video"
-                entry["response"] = message["video"]["file_id"]
+
+                file_id = message["video"]["file_id"]
+
+                filename = f"video_{message['date']}.mp4"
+
+                local_file = download_telegram_file(
+                    file_id,
+                    filename
+                )
+
+                entry["response"] = upload_to_drive(
+                    local_file,
+                    VIDEO_FOLDER_ID
+                )
+
+                os.remove(local_file)
 
             elif "video_note" in message:
                 entry["type"] = "video_note"
-                entry["response"] = message["video_note"]["file_id"]
+
+                file_id = message["video_note"]["file_id"]
+
+                filename = f"video_note_{message['date']}.mp4"
+
+                local_file = download_telegram_file(
+                    file_id,
+                    filename
+                )
+            
+                entry["response"] = upload_to_drive(
+                    local_file,
+                    VIDEO_FOLDER_ID
+                )
+
+                os.remove(local_file)
 
             elif "voice" in message:
                 entry["type"] = "voice"
-                entry["response"] = message["voice"]["file_id"]
+            
+                file_id = message["voice"]["file_id"]
+            
+                filename = f"voice_{message['date']}.ogg"
+            
+                local_file = download_telegram_file(
+                    file_id,
+                    filename
+                )
+            
+                entry["response"] = upload_to_drive(
+                    local_file,
+                    VOICE_FOLDER_ID
+                )
+
+                os.remove(local_file)
 
             elif "photo" in message:
                 entry["type"] = "photo"
