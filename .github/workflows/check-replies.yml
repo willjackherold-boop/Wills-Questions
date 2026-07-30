@@ -19,8 +19,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install requests
+            python -m pip install --upgrade pip
+            pip install requests gspread google-auth
 
       - name: Check replies
         run: python check_replies.py
