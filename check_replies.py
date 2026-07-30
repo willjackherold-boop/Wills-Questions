@@ -1,7 +1,9 @@
 import json
 import os
 import requests
+import gspread
 from datetime import datetime
+from google.oauth2.service_account import Credentials
 
 PARTNER_CHAT_ID = 7915079835
 
