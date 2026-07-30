@@ -2,6 +2,7 @@ import csv
 import json
 import os
 import requests
+from datetime import datetime, timezone
 
 TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
@@ -16,6 +17,9 @@ with open("state.json") as f:
     state = json.load(f)
 
 index = state["next_question"]
+
+print("Workflow started:", datetime.now(timezone.utc))
+print("Question index:", index)
 
 question = questions[index]
 
