@@ -9,6 +9,19 @@ PARTNER_CHAT_ID = 7915079835
 
 TOKEN = os.environ["BOT_TOKEN"]
 
+GOOGLE_CREDENTIALS = json.loads(os.environ["GOOGLE_CREDENTIALS"])
+
+SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets"
+]
+
+credentials = Credentials.from_service_account_info(
+    GOOGLE_CREDENTIALS,
+    scopes=SCOPES
+)
+
+client = gspread.authorize(credentials)
+
 # Read state
 with open("state.json") as f:
     state = json.load(f)
