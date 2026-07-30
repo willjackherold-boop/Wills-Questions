@@ -23,8 +23,8 @@ print("Question index:", index)
 
 question = questions[index]
 
-# Update for tomorrow
-state["next_question"] = (index + 1) % len(questions)
+state["last_question"] = question
+state["last_sent"] = datetime.now().strftime("%Y-%m-%d")
 
 with open("state.json", "w") as f:
     json.dump(state, f)
