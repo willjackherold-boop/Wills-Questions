@@ -103,22 +103,22 @@ if data["ok"]:
                 entry["type"] = "other"
                 entry["response"] = "Unsupported message type"
 
-            journal.append(entry)
+           journal.append(entry)
 
-            print("Saved:", entry["type"], "from", sender)
+sheet.append_row([
+    entry["date"],
+    entry["sender"],
+    entry["question"],
+    entry["type"],
+    entry["response"]
+])
 
-        # Save journal
-        with open("journal.json", "w") as f:
-            json.dump(journal, f, indent=2)
+print("Saved:", entry["type"], "from", sender)
 
+# Save journal
+with open("journal.json", "w") as f:
+    json.dump(journal, f, indent=2)
+    
 else:
     print("Telegram returned an error:")
     print(data)
-
-sheet.append_row([
-    "TEST",
-    "TEST",
-    "TEST",
-    "TEST",
-    "It works!"
-])
