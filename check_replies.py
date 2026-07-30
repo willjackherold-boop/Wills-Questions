@@ -113,3 +113,11 @@ if data["ok"]:
 else:
     print("Telegram returned an error:")
     print(data)
+
+sheet.append_row([
+    "TEST",
+    "TEST",
+    "TEST",
+    "TEST",
+    "It works!"
+])
