@@ -1,7 +1,6 @@
 name: Check Replies
 
 on:
-  workflow_dispatch:
 
 permissions:
   contents: write
