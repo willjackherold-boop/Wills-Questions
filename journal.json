@@ -19,5 +19,12 @@
     "question": "What food makes you the happiest in the world?",
     "type": "text",
     "response": "Hi"
+  },
+  {
+    "date": "2026-08-04",
+    "sender": "Maddie",
+    "question": "How many garden gnomes (that are alive) do you reckon you could fight at a time and why?",
+    "type": "video_note",
+    "response": "https://drive.google.com/file/d/1-aLPEhvZr0IT0fTJY9wGMtWvo-5tyx1O/view?usp=sharing"
   }
 ]
